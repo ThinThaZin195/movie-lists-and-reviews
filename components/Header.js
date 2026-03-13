@@ -22,15 +22,18 @@ export default function Header() {
             </h1>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <form action={search} className="flex gap-2">
+          <div className="flex flex-1 justify-end">
+            <form
+              action={search}
+              className="flex w-full max-w-lg gap-2 flex-col sm:flex-row"
+            >
               <Input
                 type="text"
                 name="q"
                 placeholder="Search movies..."
-                className="w-64"
+                className="w-full sm:w-64"
               />
-              <Button type="submit" className="px-6">
+              <Button type="submit" className="w-full sm:w-auto px-6">
                 Search
               </Button>
             </form>
