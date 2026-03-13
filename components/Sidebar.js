@@ -1,18 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-// export default async function sidebar() {
-//   return (
-//     <aside className="w-[220px] flex flex-col gap-1">
-//       <Button className="justify-start" variant="outline" asChild>
-//         <Link href="/genres/action/1">Action</Link>
-//       </Button>
-//       <Button className="justify-start" variant="outline" asChild>
-//         <Link href="/genres/drama/1">Drama</Link>
-//       </Button>
-//     </aside>
-//   );
-// }
+
 const token = process.env.TMDB_TOKEN;
+
 async function fetchGenres() {
   const res = await fetch("https://api.themoviedb.org/3/genre/movie/list", {
     headers: {
@@ -21,25 +11,36 @@ async function fetchGenres() {
   });
   return await res.json();
 }
-export default async function sidebar() {
+
+export default async function Sidebar() {
   const { genres } = await fetchGenres();
+
   return (
-    <aside className="w-[220px] flex flex-col gap-1">
-      <Button className="justify-start" variant="outline" asChild>
-        <Link href="/">All Movies</Link>
-      </Button>
-      {genres.map((genre) => {
-        return (
+    <div className="bg-white rounded-lg shadow-md p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Genres</h3>
+      <nav className="space-y-2">
+        <Button
+          className="w-full justify-start"
+          variant="ghost"
+          asChild
+        >
+          <Link href="/" className="flex items-center gap-2">
+            🎬 All Movies
+          </Link>
+        </Button>
+        {genres.map((genre) => (
           <Button
             key={genre.id}
-            className="justify-start"
-            variant="outline"
+            className="w-full justify-start"
+            variant="ghost"
             asChild
           >
-            <Link href={`/genres/${genre.name}/${genre.id}`}>{genre.name}</Link>
+            <Link href={`/genres/${genre.name}/${genre.id}`}>
+              {genre.name}
+            </Link>
           </Button>
-        );
-      })}
-    </aside>
+        ))}
+      </nav>
+    </div>
   );
 }
