@@ -3,21 +3,33 @@ import Movies from "@/components/Movies";
 const token = process.env.TMDB_TOKEN;
 
 async function fetchPopular() {
-  const res = await fetch("https://api.themoviedb.org/3/movie/popular", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return await res.json();
+  try {
+    const res = await fetch("https://api.themoviedb.org/3/movie/popular", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return { results: [] };
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching popular movies:", error);
+    return { results: [] };
+  }
 }
 
 async function fetchTrending() {
-  const res = await fetch("https://api.themoviedb.org/3/trending/movie/day", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return await res.json();
+  try {
+    const res = await fetch("https://api.themoviedb.org/3/trending/movie/day", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return { results: [] };
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching trending movies:", error);
+    return { results: [] };
+  }
 }
 
 export default async function Home() {
