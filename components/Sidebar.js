@@ -4,16 +4,24 @@ import { Button } from "@/components/ui/button";
 const token = process.env.TMDB_TOKEN;
 
 async function fetchGenres() {
-  const res = await fetch("https://api.themoviedb.org/3/genre/movie/list", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return await res.json();
+  try {
+    const res = await fetch("https://api.themoviedb.org/3/genre/movie/list", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      return { genres: [] };
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching genres:", error);
+    return { genres: [] };
+  }
 }
 
 export default async function Sidebar() {
-  const { genres } = await fetchGenres();
+  const { genres = [] } = await fetchGenres();
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
